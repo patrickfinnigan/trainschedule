@@ -62,7 +62,7 @@ $("#submitButton").on("click", function () {
     
     var database = firebase.database();
 
-    database.ref().update({
+    database.ref().push({
         name: trainName,
         dest: destination,
         freq: freqMinutes,
