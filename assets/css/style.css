@@ -1,0 +1,16 @@
+body {
+    background-image: url(../images/Beautiful-Snow-Train-Wallpaper.jpg);
+    background-size: 100%;
+    /* background-repeat: no-repeat; */
+    background-attachment: fixed;
+}
+
+.jumbotron {
+    padding: 10px;
+    height: 171px;
+    opacity: .9;
+}
+
+.card {
+    opacity: .9;
+}

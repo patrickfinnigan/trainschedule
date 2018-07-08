@@ -26,7 +26,7 @@ $("#submitButton").on("click", function () {
     var freqMinutes = $("#freqMinutes").val();
 
 
-//
+    //
     console.log('about to save');
     database.ref().push({
         name: trainName,
@@ -35,43 +35,39 @@ $("#submitButton").on("click", function () {
         firstTrainTime: firstTrainTime
     });
 });
-
 // on("child_added") runs 1) on page load and 2) when data is added to our database in database.ref().push()
-database.ref().on("child_added", function (
-    
-) {
-    console.log('child_added', childSnapShot);
-     //first time is pushed back a year to make sure it comes first
-     var firstTrainTimeConv = moment(childSnapShot.val().firstTrainTime, "h:mm").subtract(1, "hours");
-     console.log('firstTrainTimeConv', firstTrainTimeConv);
- 
-     //current time for calculation
-     var currentTime = moment();
- 
-     // difference between  current and first train time
-     var diffTime = moment().diff(moment(firstTrainTimeConv), "minutes");
-     console.log("time difference " + diffTime);
- 
-     // time apart
-     var tRemainder = diffTime % childSnapShot.val().freq;
-     console.log(tRemainder);
- 
-     //minutes until the next train
-     var tMinutesUntilTrain = childSnapShot.val().freq - tRemainder;
-     console.log("minutes till train " + tMinutesUntilTrain)
- 
-     // next train
-     var nextTrain = moment().add(tMinutesUntilTrain, "minutes");
-     console.log("arrival time " + moment(nextTrain).format("h:mm"));
- 
-     //appends a new row with the entered data
-     var newRow = $("<tr>")
- 
-     newRow.append($("<td>").text(childSnapShot.val().name));
-     newRow.append($("<td>").text(childSnapShot.val().dest));
-     newRow.append($("<td>").text(childSnapShot.val().freq + " minutes"));
-     newRow.append($("<td>").text(moment(nextTrain).format("hh:mm")))
-     newRow.append($("<td>").text(tMinutesUntilTrain + " minutes"));
- 
-     $("#entryBody").append(newRow);
-})``
+database.ref().on("child_added", function (childSnapShot) {
+    //first time is pushed back a year to make sure it comes first
+    var firstTrainTimeConv = moment(childSnapShot.val().firstTrainTime, "h:mm").subtract(1, "hours");
+    console.log('firstTrainTimeConv', firstTrainTimeConv);
+
+    //current time for calculation
+    var currentTime = moment();
+
+    // difference between  current and first train time
+    var diffTime = moment().diff(moment(firstTrainTimeConv), "minutes");
+    console.log("time difference " + diffTime);
+
+    // time apart
+    var tRemainder = diffTime % childSnapShot.val().freq;
+    console.log(tRemainder);
+
+    //minutes until the next train
+    var tMinutesUntilTrain = childSnapShot.val().freq - tRemainder;
+    console.log("minutes till train " + tMinutesUntilTrain)
+
+    // next train
+    var nextTrain = moment().add(tMinutesUntilTrain, "minutes");
+    console.log("arrival time " + moment(nextTrain).format("h:mm"));
+
+    //appends a new row with the entered data
+    var newRow = $("<tr>")
+
+    newRow.append($("<td>").text(childSnapShot.val().name));
+    newRow.append($("<td>").text(childSnapShot.val().dest));
+    newRow.append($("<td>").text(childSnapShot.val().freq + " minutes"));
+    newRow.append($("<td>").text(moment(nextTrain).format("hh:mm")))
+    newRow.append($("<td>").text(tMinutesUntilTrain + " minutes"));
+
+    $("#entryBody").append(newRow);
+});
